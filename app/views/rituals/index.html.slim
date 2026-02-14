@@ -1,0 +1,23 @@
+table.table.table-borderless.table-dark
+  thead
+    tr
+      th scope="col" 儀式名
+      th scope="col" 会場
+      th scope="col" ステップ数
+      th scope="col" 供物
+      th scope="col" 呪物
+    tbody
+      - @rituals.each do |ritual| 
+        tr
+          td = ritual.title
+          td = ritual.location.name
+          td
+            = ritual.ritual_steps.size
+          td
+            - ritual.ritual_offerings.each do |ro|
+              div = "#{ro.offering.name} × #{ro.quantity}"
+          td
+            - ritual.artifacts.each do |artifact|
+              div = artifact.name
+
+li = link_to "儀式の生成", new_ritual_path, class: 'btn btn-dark'

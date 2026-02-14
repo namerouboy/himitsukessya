@@ -1,0 +1,42 @@
+= form_with model: @ritual, locale: true do |f|
+  .form-group.col-md-6
+    = f.label :儀式名
+    = f.text_field :title, class: 'form-control'
+
+    = f.label :教団
+    = f.collection_select :cult_id, Cult.all, :id, :name
+
+    = f.label :会場
+    = f.collection_select :location_id, Location.all, :id, :name
+
+    = f.fields_for :ritual_steps do |step_form|
+      .nested-fields
+        = step_form.label :手順
+        = step_form.number_field :position
+
+        = step_form.label :内容
+        = step_form.text_field :description
+
+    = f.fields_for :ritual_offerings do |ro_form|
+      .nested-fields
+        = ro_form.label :供物
+        = ro_form.collection_select :offering_id, Offering.all, :id, :name
+
+        = ro_form.label :数量
+        = ro_form.number_field :quantity
+
+    = f.fields_for :ritual_artifacts do |ar_form|
+      .nested-fields
+        = ar_form.label :呪物
+        = ar_form.collection_select :artifact_id, Artifact.all, :id, :name
+
+    = f.fields_for :chants do |chant_form|
+      .nested-fields
+        = chant_form.label :言語
+        = chant_form.text_field :language
+
+        = chant_form.label :詠唱
+        = chant_form.text_field :content
+
+  / submitにパスはいらない
+  = f.submit "生成", class: 'btn btn-dark'
